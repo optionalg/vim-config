@@ -15,7 +15,7 @@ set copyindent            " Copy the previous line's indenting.
 set showmatch             " Show matching parenthesis.
 set hlsearch              " Highlight search terms.
 set incsearch             " Show search matches incrementally.
-set list                  " Shows tabs (^I) and end of line ($).
+"set list                 " Shows tabs (^I) and end of line ($).
 set history=1000          " Commands and search history.
 set undolevels=1000       " Lots of undo levels.
 set autowrite             " Write changed buffers before :make.

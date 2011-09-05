@@ -28,8 +28,8 @@
 	endfunction
 " }}}
 
-"        | Highlight group                |    FG |    BG |      Attributes |
-"        |--------------------------------|-------|-------|-----------------|
+"    | Highlight group                |    FG |    BG |      Attributes |
+"    |--------------------------------|-------|-------|-----------------|
 call s:ColorDictParser({
 	\   'xmlTag'                      : [    149, 'none',           'bold']
 	\ , 'xmlTagName'                  : [    250, 'none',           'none']
@@ -118,6 +118,8 @@ call s:ColorDictParser({
 	\ , 'diffLine'                    : [     68, 'none',           'bold']
 	\ , 'diffFile'                    : [    242, 'none',           'none']
 	\ , 'diffNewFile'                 : [    242, 'none',           'none']
+  \
+	\ , 'rubyClass'                   : [    214, 'none',           'bold']
 \ })
 
 hi link htmlTag            xmlTag
