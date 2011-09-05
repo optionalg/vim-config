@@ -1,7 +1,7 @@
 call pathogen#infect()    " Init pathogen
 syntax on                 " Syntax highlighting on
 set t_Co=256              " Make my colour scheme work in the command line.
-colors zenburn            " Set colour scheme to zenburn.
+colors distinguished
 set go-=m                 " Hide menu (gvim).
 set go-=T                 " Hide toolbar (gvim).
 set nu!                   " Line numbers.
@@ -74,10 +74,6 @@ autocmd FileType ruby,eruby set shiftwidth=2 " Number of spaces to use for autoi
 
 " Improve autocomplete menu color.
 highlight Pmenu ctermbg=238 gui=bold
-
-" Hide special characters (like ^I).
-highlight NonText guifg=#4a4a59
-highlight SpecialKey guifg=#4a4a59
 
 " Auto compile a file on save for learning C (temporary).
 autocmd BufWritePost,FileWritePost p*.c !gcc --ansi -Wall <afile> -o exec
