@@ -1,9 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/home/sam/Dropbox/code/LaTeX'
-let g:netrw_dirhist_2='/home/sam/Dropbox/code/LaTeX/blog-posts'
-let g:netrw_dirhist_3='/home/sam/Dropbox/code/LaTeX/blog-posts/learn-programming-in-a-free-environment'
-let g:netrw_dirhist_4='/home/sam/Dropbox/final-year-project/code/prototypes/first/lib/jarvis'
-let g:netrw_dirhist_5='/home/sam/Dropbox/final-year-project/code/prototypes/first/lib/jarvis/generators'
-let g:netrw_dirhist_6='/home/sam/Dropbox/code/Ruby/todo-txt'
-let g:netrw_dirhist_7='/home/sam/Dropbox/code/Ruby/todo-txt/lib'
