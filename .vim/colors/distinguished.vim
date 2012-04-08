@@ -86,7 +86,7 @@ call s:ColorDictParser({
 	\ , 'Include'                     : [    173, 'none',           'none']
 	\ , 'PreCondit'                   : [    173, 'none',           'none']
 	\ , 'Keyword'                     : [    173, 'none',           'none']
-	\ , 'Search'                      : [     16,    227, 'underline,bold']
+	\ , 'Search'                      : [    227, 'none',           'bold']
 	\ , 'Title'                       : [     15, 'none',           'none']
 	\
 	\ , 'TODO'                        : [    228,     94,           'bold']
