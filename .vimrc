@@ -99,17 +99,17 @@ function! <SID>StripTrailingWhitespaces()
     endif
 endfunction
 
-" Maps Shift-[h,j,k,l] to resizing a window split
-map <silent> <S-h> <C-w><
-map <silent> <S-j> <C-W>-
-map <silent> <S-k> <C-W>+
-map <silent> <S-l> <C-w>>
-" Maps Shift-[s.v] to horizontal and vertical split respectively
-map <silent> <S-s> :split<CR>
-map <silent> <S-v> :vsplit<CR>
-" Maps Shift-[n,p] for moving next and previous window respectively
-map <silent> <S-n> <C-w><C-w>
-map <silent> <S-p> <C-w><S-w>
+" Maps Ctrl-Alt-[h,j,k,l] to resizing a window split
+noremap <silent> <C-h> <C-w><
+noremap <silent> - <C-W>-
+noremap <silent> = <C-W>+
+noremap <silent> <C-l> <C-w>>
+" Maps Ctrl-Alt-[s.v] to horizontal and vertical split respectively
+noremap <silent> <C-s> :split<CR>
+noremap <silent> <C-v> :vsplit<CR>
+" Maps Ctrl-Alt-[n,p] for moving next and previous window respectively
+noremap <silent> <C-n> <C-w><C-w>
+noremap <silent> <C-p> <C-w><S-w>
 
 " Fugitive stuff
 autocmd BufReadPost fugitive://* set bufhidden=delete
