@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+root_repo_dir = File.absolute_path(File.dirname(__FILE__)) + '/..'
+
+Dir[root_repo_dir + "/backups/.*"].each do |directory|
+    next if File.basename(directory) == "." or File.basename(directory) == ".."
+    next if File.basename(directory) == "create"
+    FileUtils.rm_rf directory, verbose: true
+end
