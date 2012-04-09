@@ -12,41 +12,49 @@ $backup_dir    = "#{$root_repo_dir}/backups"
 # copy it over appropriately. The backup will be timestamped and stored in the
 # backups/ directory of this repo.
 def backup path
-    basename    = File.basename path
-    backup_path = "#{$backup_dir}/#{basename}-#{Time.now.to_i}"
+  basename    = File.basename path
+  backup_path = "#{$backup_dir}/#{basename}-#{Time.now.to_i}"
 
-    puts "Backing up #{path} to #{backup_path}..."
-    if Dir.exists? path
-        FileUtils.cp_r path, backup_path, verbose: true
-    elsif File.exists? path
-        FileUtils.cp path, backup_path, verbose: true
-    else
-        raise "Path #{path} is not vaid."
-    end
-    puts "Done backup of #{path}."
+  puts "Backing up #{path} to #{backup_path}..."
+  if Dir.exists? path
+    FileUtils.cp_r path, backup_path, verbose: true
+  elsif File.exists? path
+    FileUtils.cp path, backup_path, verbose: true
+  else
+    raise "Path #{path} is not vaid."
+  end
+  puts "Done backup of #{path}."
 end
 
 # Backup a file or directory and remove the original once the backup is
 # complete.
 def backup_and_remove path
-    backup path
-    puts "Removing #{path}..."
-    FileUtils.rm_rf path
-    puts "Done removing #{path}."
+  backup path
+  puts "Removing #{path}..."
+  FileUtils.rm_rf path
+  puts "Done removing #{path}."
 end
 
-if Dir.exists? "#{$home}/.vim"
-    backup_and_remove "#{$home}/.vim"
+def symlink_in_home path
+  basename = File.basename path
+
+  puts "Creating new symlink to #{basename}..."
+  FileUtils.symlink path, "#{$home}/#{basename}", verbose: true
+  puts "Done creating #{basename} symlink."
 end
 
-if File.exists? "#{$home}/.vimrc"
-    backup_and_remove "#{$home}/.vimrc"
+# Backup and remove existing .vim* files.
+backup_and_remove "#{$home}/.vim" if Dir.exists? "#{$home}/.vim"
+backup_and_remove "#{$home}/.vimrc" if File.exists? "#{$home}/.vimrc"
+backup_and_remove "#{$home}/.vimrc.local" if File.exists? "#{$home}/.vimrc.local"
+
+# If the .vimrc.local file does not exist, create it by copying the
+# .vimrc.local.sample file.
+unless File.exists? "#{$root_repo_dir}/.vimrc.local"
+  FileUtils.cp "#{$root_repo_dir}/.vimrc.local.sample",
+    "#{$root_repo_dir}/.vimrc.local"
 end
 
-puts 'Creating new symlink to .vim directory...'
-FileUtils.symlink "#{$root_repo_dir}/.vim", "#{$home}/.vim", verbose: true
-puts 'Done creating .vim symlink.'
-
-puts 'Creating new symlink to .vimrc file...'
-FileUtils.symlink "#{$root_repo_dir}/.vimrc", "#{$home}/.vimrc", verbose: true
-puts 'Done creating .vimrc symlink.'
+symlink_in_home "#{$root_repo_dir}/.vim"
+symlink_in_home "#{$root_repo_dir}/.vimrc"
+symlink_in_home "#{$root_repo_dir}/.vimrc.local"

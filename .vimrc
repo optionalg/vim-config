@@ -2,7 +2,7 @@ call pathogen#infect()    " Init pathogen
 call pathogen#helptags()
 syntax on                 " Syntax highlighting on
 set t_Co=256              " Make my colour scheme work in the command line.
-colorscheme distinguished
+colors distinguished
 set go-=m                 " Hide menu (gvim).
 set go-=T                 " Hide toolbar (gvim).
 set nu                    " Line numbers.
@@ -28,6 +28,11 @@ set directory=~/.vim/tmp
 set scrolloff=5           " Keep at least 5 lines above and below.
 set sidescrolloff=5       " Keep at least 5 chars left and right.
 set textwidth=80          " The maximum number of characters a line should be.
+
+" 80 columns marker
+if exists('+colorcolumn')
+  set colorcolumn=80
+endif
 
 " Spell checking on text files.
 if v:version >= 700
@@ -65,7 +70,7 @@ filetype plugin indent on
 " Turn omni complete on.
 set ofu=syntaxcomplete#Complete
 
-" LaTeX comfigs
+" LaTeX configs
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep
 " program to always generate a file-name.
@@ -99,17 +104,30 @@ function! <SID>StripTrailingWhitespaces()
     endif
 endfunction
 
-" Maps Ctrl-Alt-[h,j,k,l] to resizing a window split
-noremap <silent> <C-h> <C-w><
-noremap <silent> - <C-W>-
-noremap <silent> = <C-W>+
-noremap <silent> <C-l> <C-w>>
-" Maps Ctrl-Alt-[s.v] to horizontal and vertical split respectively
-noremap <silent> <C-s> :split<CR>
-noremap <silent> <C-v> :vsplit<CR>
-" Maps Ctrl-Alt-[n,p] for moving next and previous window respectively
+" Maps for window resizing
+noremap <silent> <Left> <C-w><
+noremap <silent> <Down> <C-W>-
+noremap <silent> <Up> <C-W>+
+noremap <silent> <Right> <C-w>>
+" Maps Ctrl-[s.v] to horizontal and vertical split respectively
+" noremap <silent> <C-s> :split<CR>
+" noremap <silent> <C-v> :vsplit<CR>
+" Maps Ctrl-[n,p] for moving next and previous window respectively
 noremap <silent> <C-n> <C-w><C-w>
 noremap <silent> <C-p> <C-w><S-w>
 
-" Fugitive stuff
+" Fugitive stuff. Delete a fugitive buffer upon leaving it.
 autocmd BufReadPost fugitive://* set bufhidden=delete
+
+" Source a given file or fail out.
+function! LoadFile(filename)
+    let FILE=expand(a:filename)
+    if filereadable(FILE)
+        exe "source " FILE
+    else
+        " echo "Can't source " FILE
+    endif
+endfunction
+
+" Load the .vimrc.local file if it exists.
+exec LoadFile("~/.vimrc.local")

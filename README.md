@@ -26,6 +26,28 @@ the backups/ directory of the repository. When it's finished with that, it will
 create symbolic links in your home directory that point to the files in here.
 Nifty, right?
 
+# Overriding my config
+
+If you were to directly modify my configuration, you would get nasty git errors
+when you went to update from my git repository. This isn't recommended.
+
+Because of the above fact, I've included a .vimrc.local.sample file. When you
+run `./bin/vim_install` this file will be copied to `.vimrc.local` in the repo
+directory and symlinked to from `~/.vimrc.local`. My `.vimrc` file will then
+source `~/.vimrc.local` as the last thing it does, allowing you to override any
+of my settings.
+
+Check out what's in the .vimrc.local.sample file, it gives a few examples of the
+things you might want to do.
+
+Remember to re-run `./bin/vim_install` if you were using a previous version of
+my config that did not include a `.vimrc.local.sample` file, as it will be not
+properly symlinked in your home directory until you do.
+
+Also remember that you should edit `.vimrc.local`, _not_ `.vimrc.local.sample`.
+Editing the sample file will lead to the same messy problems as editing my
+`.vimrc` file.
+
 # Plugin Layout and Updating
 
 I've taken a bit of time recently and made my vim configuration pathogen based.
