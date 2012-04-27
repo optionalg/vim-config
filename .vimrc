@@ -37,7 +37,7 @@ endif
 " Spell checking on text files.
 if v:version >= 700
     " Enable spell check for text files.
-    autocmd BufNewFile,BufRead *.txt setlocal spell spelllang=en
+    autocmd BufNewFile,BufRead *.txt,*.md,*.markdown,*.tex setlocal spell spelllang=en
 endif
 
 " Improved status line
