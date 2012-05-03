@@ -10,6 +10,16 @@ know of anyone that uses it apart from me. I know that you should get fairly
 good cross-platform mileage on Linux based systems but beyond that you're on
 your own.
 
+# Requirements
+
+To use my .vimrc you will need a number of programs to get the optimal result:
+
+- `par`, a paragraph formatter: [link](http://www.nicemice.net/par/)
+- `ctags`, a tag file generator. Ships with most distros.
+- Ruby 1.9.2 or higher is required to run the script files in the bin directory.
+- There might be more. If you run into problems let me know and I'll do my best
+  to help :)
+
 # Usage
 
 To get going with this configuration you'll need to clone this repository:

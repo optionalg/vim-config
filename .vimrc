@@ -29,6 +29,29 @@ set scrolloff=5           " Keep at least 5 lines above and below.
 set sidescrolloff=5       " Keep at least 5 chars left and right.
 set textwidth=80          " The maximum number of characters a line should be.
 
+" Load plugins.
+if has("autocmd")
+    filetype plugin indent on
+endif
+
+" Map my leader key
+let mapleader=','
+
+" Tabular mappings
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:\zs<CR>
+vmap <Leader>a: :Tabularize /:\zs<CR>
+
+" Source my .vimrc file after changes have been made to it.
+autocmd BufWritePost .vimrc source $MYVIMRC
+
+" Keybinding for quickly opening my vimrc file for editing
+nmap <Leader>v :vsp $MYVIMRC<CR>
+
+" Set the formatting program to par
+set formatprg=par\ -w80\ -r\ -j
+
 " 80 columns marker
 if exists('+colorcolumn')
   set colorcolumn=80
@@ -37,7 +60,7 @@ endif
 " Spell checking on text files.
 if v:version >= 700
     " Enable spell check for text files.
-    autocmd BufNewFile,BufRead *.txt,*.md,*.markdown,*.tex setlocal spell spelllang=en
+    autocmd BufNewFile,BufRead *.txt,*.md,*.markdown,*.tex setlocal spell spelllang=en_gb
 endif
 
 " Improved status line
@@ -64,9 +87,6 @@ iab ans and
 iab teh the
 iab thre there
 
-" Load plugins.
-filetype plugin indent on
-
 " Turn omni complete on.
 set ofu=syntaxcomplete#Complete
 
@@ -80,9 +100,6 @@ set grepprg=grep\ -nH\ $*
 " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
 " The following changes the default filetype back to 'tex':
 let g:tex_flavor='latex'
-
-" Improve autocomplete menu color.
-highlight Pmenu ctermbg=238 gui=bold
 
 " Auto compile a file on save for learning C (temporary).
 " autocmd BufWritePost,FileWritePost p*.c !gcc --ansi -Wall <afile> -o exec
@@ -118,6 +135,15 @@ noremap <silent> <C-p> <C-w><S-w>
 
 " Fugitive stuff. Delete a fugitive buffer upon leaving it.
 autocmd BufReadPost fugitive://* set bufhidden=delete
+
+" Show syntax highlighting groups for word under cursor
+nmap <C-S-P> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
 
 " Source a given file or fail out.
 function! LoadFile(filename)

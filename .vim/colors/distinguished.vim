@@ -9,7 +9,7 @@
 		syntax reset
 	endif
 
-	let g:colors_name = 'Distinguished'
+	let g:colors_name = 'distinguished'
 
 	if &t_Co != 256 || has('gui_running')
 		echoe 'The ' . g:colors_name . ' color scheme requires a 256-color terminal'
@@ -91,7 +91,7 @@ call s:ColorDictParser({
 	\
 	\ , 'TODO'                        : [    228,     94,           'bold']
 	\
-	\ , 'Pmenu'                       : [    248,    240,           'none']
+	\ , 'Pmenu'                       : [    248,    238,           'bold']
 	\ , 'PmenuSel'                    : [    253,    245,           'none']
 	\ , 'PmenuSbar'                   : [    253,    248,           'none']
 	\
