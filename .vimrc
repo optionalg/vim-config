@@ -28,6 +28,7 @@ set directory=~/.vim/tmp
 set scrolloff=5           " Keep at least 5 lines above and below.
 set sidescrolloff=5       " Keep at least 5 chars left and right.
 set textwidth=80          " The maximum number of characters a line should be.
+set fo+=t                 " Automatically wrap long lines
 
 " Load plugins.
 if has("autocmd")
@@ -44,7 +45,7 @@ nmap <Leader>a: :Tabularize /:\zs<CR>
 vmap <Leader>a: :Tabularize /:\zs<CR>
 
 " Source my .vimrc file after changes have been made to it.
-autocmd BufWritePost .vimrc source $MYVIMRC
+autocmd! BufWritePost .vimrc source %
 
 " Keybinding for quickly opening my vimrc file for editing
 nmap <Leader>v :vsp $MYVIMRC<CR>
@@ -60,7 +61,7 @@ endif
 " Spell checking on text files.
 if v:version >= 700
     " Enable spell check for text files.
-    autocmd BufNewFile,BufRead *.txt,*.md,*.markdown,*.tex setlocal spell spelllang=en_gb
+    autocmd! BufNewFile,BufRead *.txt,*.md,*.markdown,*.tex setlocal spell spelllang=en_gb
 endif
 
 " Improved status line
@@ -105,7 +106,7 @@ let g:tex_flavor='latex'
 " autocmd BufWritePost,FileWritePost p*.c !gcc --ansi -Wall <afile> -o exec
 
 " Strip trailing whitespace before writing buffer to file.
-autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+autocmd! BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 function! <SID>StripTrailingWhitespaces()
     " Preparation: save last search, and cursor position.
@@ -134,7 +135,7 @@ noremap <silent> <C-n> <C-w><C-w>
 noremap <silent> <C-p> <C-w><S-w>
 
 " Fugitive stuff. Delete a fugitive buffer upon leaving it.
-autocmd BufReadPost fugitive://* set bufhidden=delete
+autocmd! BufReadPost fugitive://* set bufhidden=delete
 
 " Show syntax highlighting groups for word under cursor
 nmap <C-S-P> :call <SID>SynStack()<CR>
