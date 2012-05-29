@@ -44,8 +44,21 @@ vmap <Leader>a= :Tabularize /=<CR>
 nmap <Leader>a: :Tabularize /:\zs<CR>
 vmap <Leader>a: :Tabularize /:\zs<CR>
 
+" Only define the ReloadVimrc file once. This is for use in the auto command
+" that reloads the vimrc file when you save the vimrc file. It places the cursor
+" exactly where it was before save, instead of having the cursor back at the top
+" after sourcing.
+if !exists("*ReloadVimrc")
+    function ReloadVimrc()
+        let l = line(".")
+        let c = col(".")
+        source $MYVIMRC
+        call cursor(l, c)
+    endfunction
+endif
+
 " Source my .vimrc file after changes have been made to it.
-autocmd! BufWritePost .vimrc source %
+autocmd! BufWritePost .vimrc :call ReloadVimrc()
 
 " Keybinding for quickly opening my vimrc file for editing
 nmap <Leader>v :vsp $MYVIMRC<CR>
@@ -74,12 +87,18 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_jump=1
+let g:syntastic_mode_map = { 'mode': 'active',
+                           \ 'passive_filetypes': ['tex'] }
+
 
 " Some time savers.
 command! WQ wq
 command! Wq wq
 command! W w
 command! Q q
+
+" This abbreviation replaces the :q command with :qall.
+cabbrev q <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'qall' : 'q')<CR>
 
 " Some autocorrection for common typos
 iab anf and
@@ -155,6 +174,18 @@ function! LoadFile(filename)
         " echo "Can't source " FILE
     endif
 endfunction
+
+" Loads the session from the current directory if, and only if, no file names
+" were passed in via the command line.
+function! LoadSession()
+    if argc() == 0
+        exe LoadFile(".session.vim")
+    endif
+endfunction
+
+" Auto session management commands
+autocmd! VimLeave * mksession! .session.vim
+autocmd! VimEnter * :call LoadSession()
 
 " Load the .vimrc.local file if it exists.
 exec LoadFile("~/.vimrc.local")
