@@ -64,7 +64,9 @@ autocmd! BufWritePost .vimrc :call ReloadVimrc()
 nmap <Leader>v :vsp $MYVIMRC<CR>
 
 " Set the formatting program to par
-set formatprg=par\ -w80\ -r\ -j
+if executable("par")
+    set formatprg=par\ -w80\ -r\ -j
+endif
 
 " 80 columns marker
 if exists('+colorcolumn')
