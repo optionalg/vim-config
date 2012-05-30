@@ -36,6 +36,13 @@ the backups/ directory of the repository. When it's finished with that, it will
 create symbolic links in your home directory that point to the files in here.
 Nifty, right?
 
+To pull down all of the plugin submodules you will need to run (from the root
+directory of the repository, which you should be in if you just ran the commands
+above this):
+
+    $ git submodule init
+    $ git submodule update
+
 # Overriding my config
 
 If you were to directly modify my configuration, you would get nasty git errors
