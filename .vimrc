@@ -90,7 +90,7 @@ set statusline+=%*
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_jump=1
 let g:syntastic_mode_map = { 'mode': 'active',
-                           \ 'passive_filetypes': ['tex'] }
+                           \ 'passive_filetypes': ['tex', 'java'] }
 
 
 " Some time savers.
@@ -122,6 +122,10 @@ set grepprg=grep\ -nH\ $*
 " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
 " The following changes the default filetype back to 'tex':
 let g:tex_flavor='latex'
+
+" Settings for VimClojure
+let vimclojure#HighlightBuiltins=1
+let vimclojure#ParenRainbow=1
 
 " Auto compile a file on save for learning C (temporary).
 " autocmd BufWritePost,FileWritePost p*.c !gcc --ansi -Wall <afile> -o exec
