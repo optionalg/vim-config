@@ -16,7 +16,6 @@ set copyindent            " Copy the previous line's indenting.
 set showmatch             " Show matching parenthesis.
 set hlsearch              " Highlight search terms.
 set incsearch             " Show search matches incrementally.
-"set list                 " Shows tabs (^I) and end of line ($).
 set history=1000          " Commands and search history.
 set undolevels=1000       " Lots of undo levels.
 set autowrite             " Write changed buffers before :make.
@@ -29,6 +28,13 @@ set scrolloff=5           " Keep at least 5 lines above and below.
 set sidescrolloff=5       " Keep at least 5 chars left and right.
 set textwidth=80          " The maximum number of characters a line should be.
 set fo+=t                 " Automatically wrap long lines
+set noswapfile            " Don't bother with swap files.
+set ignorecase
+set smartcase
+set pastetoggle=,p        " Toggle paste mode, which allows you to paste as-is
+
+" For ctrlp.vim to work correctly
+set runtimepath^=~/.vim/bundle/ctrlp.vim
 
 " Load plugins.
 if has("autocmd")
@@ -43,6 +49,9 @@ nmap <Leader>a= :Tabularize /=<CR>
 vmap <Leader>a= :Tabularize /=<CR>
 nmap <Leader>a: :Tabularize /:\zs<CR>
 vmap <Leader>a: :Tabularize /:\zs<CR>
+
+" Visual dot map
+:vnoremap . :norm.<CR>
 
 " Only define the ReloadVimrc file once. This is for use in the auto command
 " that reloads the vimrc file when you save the vimrc file. It places the cursor
@@ -157,19 +166,32 @@ noremap <silent> <Right> <C-w>>
 " noremap <silent> <C-v> :vsplit<CR>
 " Maps Ctrl-[n,p] for moving next and previous window respectively
 noremap <silent> <C-n> <C-w><C-w>
-noremap <silent> <C-p> <C-w><S-w>
+" noremap <silent> <C-p> <C-w><S-w>
+
+" Maps for natural navigation of long lines
+nnoremap j gj
+nnoremap k gk
+
+" Easy window navigation
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+
+" Short cut for full line completion
+inoremap § <c-x><c-l>
 
 " Fugitive stuff. Delete a fugitive buffer upon leaving it.
 autocmd! BufReadPost fugitive://* set bufhidden=delete
 
-" Show syntax highlighting groups for word under cursor
-nmap <C-S-P> :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
+" " Show syntax highlighting groups for word under cursor
+" nmap <C-S-P> :call <SID>SynStack()<CR>
+" function! <SID>SynStack()
+"   if !exists("*synstack")
+"     return
+"   endif
+"   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+" endfunc
 
 " Source a given file or fail out.
 function! LoadFile(filename)
