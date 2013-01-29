@@ -1,6 +1,12 @@
+" Load plugins.
+if has("autocmd")
+    filetype plugin indent on
+endif
+
+set nocompatible
+syntax on                 " Syntax highlighting on
 call pathogen#infect()    " Init pathogen
 call pathogen#helptags()
-syntax on                 " Syntax highlighting on
 set t_Co=256              " Make my colour scheme work in the command line.
 colors distinguished
 set go-=m                 " Hide menu (gvim).
@@ -35,11 +41,6 @@ set pastetoggle=,p        " Toggle paste mode, which allows you to paste as-is
 
 " For ctrlp.vim to work correctly
 set runtimepath^=~/.vim/bundle/ctrlp.vim
-
-" Load plugins.
-if has("autocmd")
-    filetype plugin indent on
-endif
 
 " Map my leader key
 let mapleader=','
@@ -180,6 +181,9 @@ map <C-l> <C-w>l
 
 " Short cut for full line completion
 inoremap § <c-x><c-l>
+
+" Key combo to insert date and time
+:nnoremap <Leader>d "=strftime("%c")<CR>P
 
 " Fugitive stuff. Delete a fugitive buffer upon leaving it.
 autocmd! BufReadPost fugitive://* set bufhidden=delete

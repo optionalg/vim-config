@@ -16,6 +16,7 @@
 
 		finish
 	endif
+
 " }}}
 " Color dictionary parser {{{
 	function! s:ColorDictParser(color_dict)
