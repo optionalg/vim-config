@@ -65,28 +65,6 @@ Also remember that you should edit `.vimrc.local`, _not_ `.vimrc.local.sample`.
 Editing the sample file will lead to the same messy problems as editing my
 `.vimrc` file.
 
-# Plugin Layout and Updating
-
-I've taken a bit of time recently and made my vim configuration pathogen based.
-Pathogen is an excellent plugin by Tim Pope that makes it easy to manage vim
-plugins. Instead of having files spread out all over the place, which makes you
-forget what belongs to what, all of your plugins go into a .vim/bundle
-directory.
-
-In this case, all of the plugins are git repositories and there's another handy
-script that will update them all in turn:
-
-    $ ./bin/vim_update_plugins
-
-The script will cd into each of the plugin directories and run the following
-commands:
-
-    $ git fetch origin
-    $ git rebase origin/master
-
-This will pull down any changes from the origin and rebase your current master
-branch on top of them. Thus bringing them up to the latest version.
-
 # Clearing out backups
 
 If you've run the `./bin/vim_install` command a few too many times and you've
