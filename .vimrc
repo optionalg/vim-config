@@ -3,12 +3,15 @@ if has("autocmd")
     filetype plugin indent on
 endif
 
+let g:solarized_termcolors = 16
+syntax enable                 " Syntax highlighting on
+set background=dark
+colorscheme solarized
+
 set nocompatible
-syntax on                 " Syntax highlighting on
 call pathogen#infect()    " Init pathogen
 call pathogen#helptags()
-set t_Co=256              " Make my colour scheme work in the command line.
-colors distinguished
+
 set go-=m                 " Hide menu (gvim).
 set go-=T                 " Hide toolbar (gvim).
 set nu                    " Line numbers.
@@ -101,6 +104,9 @@ let g:syntastic_enable_signs=1
 let g:syntastic_auto_jump=1
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'passive_filetypes': ['tex', 'java'] }
+let g:syntastic_c_compiler = 'clang'
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = '`llvm-config --cppflags --ldflags --libs core`'
 
 
 " Some time savers.
