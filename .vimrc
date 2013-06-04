@@ -41,6 +41,9 @@ set noswapfile            " Don't bother with swap files.
 set ignorecase
 set smartcase
 set pastetoggle=,p        " Toggle paste mode, which allows you to paste as-is
+set laststatus=2
+set termencoding=utf-8
+set encoding=utf-8
 
 " For ctrlp.vim to work correctly
 set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -83,20 +86,22 @@ endif
 
 " 80 columns marker
 if exists('+colorcolumn')
-  set colorcolumn=80
+  set colorcolumn=+1
 endif
 
 " Spell checking on text files.
 if v:version >= 700
     " Enable spell check for text files.
-    autocmd! BufNewFile,BufRead *.txt,*.md,*.markdown,*.tex setlocal spell spelllang=en_gb
+    autocmd! BufNewFile,BufRead *.txt,*.md,*.markdown,*.mdown,*.tex setlocal spell spelllang=en_gb
 endif
 
-" Improved status line
-set statusline=%F%m%r%h%w\ [ftype=%Y]\ [pos=%p%%][l:%l/c:%v]\ [lines=%L]\ %{fugitive#statusline()}
-set laststatus=2
+" " Improved status line
+" set statusline=%F%m%r%h%w\ [ftype=%Y]\ [pos=%p%%][l:%l/c:%v]\ [lines=%L]\ %{fugitive#statusline()}
+" set laststatus=2
+" let g:Powerline_symbols='none'
+let g:Powerline_colorscheme="solarized16"
 
-" Syntastic settings.
+" " Syntastic settings.
 set statusline+=\ %#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -213,6 +218,26 @@ function! LoadFile(filename)
     endif
 endfunction
 
+" Tell vim to remember certain things when we exit
+"  '10  :  marks will be remembered for up to 10 previously edited files
+"  "100 :  will save up to 100 lines for each register
+"  :20  :  up to 20 lines of command-line history will be remembered
+"  %    :  saves and restores the buffer list
+"  n... :  where to save the viminfo files
+set viminfo='10,\"100,:20,%,n~/.viminfo
+
+function! ResCur()
+  if line("'\"") <= line("$")
+    normal! g`"
+    return 1
+  endif
+endfunction
+
+augroup resCur
+  autocmd!
+  autocmd BufWinEnter,SessionLoadPost * call ResCur()
+augroup END
+
 " Loads the session from the current directory if, and only if, no file names
 " were passed in via the command line.
 function! LoadSession()
@@ -221,9 +246,15 @@ function! LoadSession()
     endif
 endfunction
 
+" Make sure we save as much as we can into session files.
+set sessionoptions=blank,buffers,options,localoptions,resize,winsize,tabpages,winpos,help
+
 " Auto session management commands
 autocmd! VimLeave * mksession! .session.vim
 autocmd! VimEnter * :call LoadSession()
+
+" Stop screen trying to hijack .S files.
+let vimrplugin_screenplugin = 0
 
 " Load the .vimrc.local file if it exists.
 exec LoadFile("~/.vimrc.local")

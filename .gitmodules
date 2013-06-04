@@ -88,3 +88,15 @@
 [submodule ".vim/bundle/solarized"]
 	path = .vim/bundle/solarized
 	url = https://github.com/altercation/vim-colors-solarized
+[submodule ".vim/bundle/puppet"]
+	path = .vim/bundle/puppet
+	url = git://github.com/rodjek/vim-puppet.git
+[submodule ".vim/bundle/cscope"]
+	path = .vim/bundle/cscope
+	url = git@github.com:vim-scripts/cscope.vim.git
+[submodule ".vim/bundle/powerline"]
+	path = .vim/bundle/powerline
+	url = git@github.com:Lokaltog/vim-powerline.git
+[submodule ".vim/bundle/nasm"]
+	path = .vim/bundle/nasm
+	url = git@github.com:helino/vim-nasm.git
