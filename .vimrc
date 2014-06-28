@@ -1,7 +1,7 @@
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/vundle
+set rtp+=~/.vim/vundle
 call vundle#begin()
 
 Plugin 'scrooloose/syntastic'
@@ -37,6 +37,8 @@ Plugin 'rodjek/vim-puppet'
 Plugin 'vim-scripts/cscope.vim'
 Plugin 'Lokaltog/vim-powerline'
 Plugin 'helino/vim-nasm'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
 
 call vundle#end()
 
@@ -49,7 +51,6 @@ colorscheme solarized
 if has("autocmd")
     filetype plugin indent on
 endif
-
 
 set go-=m                 " Hide menu (gvim).
 set go-=T                 " Hide toolbar (gvim).
@@ -84,6 +85,19 @@ set laststatus=2
 set termencoding=utf-8
 set encoding=utf-8
 
+" Session management
+let g:session_default_name = getcwd()
+let g:session_autosave = 'yes'
+let g:session_autoload = 'yes'
+let g:session_autosave_periodic = 'yes'
+
+function SaveAndCloseSession()
+    SaveSession
+    CloseSession
+endfunction
+
+autocmd! VimLeave * call SaveAndCloseSession()
+
 " For ctrlp.vim to work correctly
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 
@@ -98,25 +112,6 @@ vmap <Leader>a: :Tabularize /:\zs<CR>
 
 " Visual dot map
 :vnoremap . :norm.<CR>
-
-" Only define the ReloadVimrc file once. This is for use in the auto command
-" that reloads the vimrc file when you save the vimrc file. It places the cursor
-" exactly where it was before save, instead of having the cursor back at the top
-" after sourcing.
-if !exists("*ReloadVimrc")
-    function ReloadVimrc()
-        let l = line(".")
-        let c = col(".")
-        source $MYVIMRC
-        call cursor(l, c)
-    endfunction
-endif
-
-" Source my .vimrc file after changes have been made to it.
-autocmd! BufWritePost .vimrc :call ReloadVimrc()
-
-" Keybinding for quickly opening my vimrc file for editing
-nmap <Leader>v :vsp $MYVIMRC<CR>
 
 " Set the formatting program to par
 if executable("par")
@@ -184,65 +179,30 @@ let g:tex_flavor='latex'
 let vimclojure#HighlightBuiltins=1
 let vimclojure#ParenRainbow=1
 
-" Auto compile a file on save for learning C (temporary).
-" autocmd BufWritePost,FileWritePost p*.c !gcc --ansi -Wall <afile> -o exec
 
 " Strip trailing whitespace before writing buffer to file.
-autocmd! BufWritePre * :call <SID>StripTrailingWhitespaces()
-
-function! <SID>StripTrailingWhitespaces()
-    " Preparation: save last search, and cursor position.
-    if &modifiable
-        let _s=@/
-        let l = line(".")
-        let c = col(".")
-        " Do the business:
-        %s/\s\+$//e
-        " Clean up: restore previous search history, and cursor position.
-        let @/=_s
-        call cursor(l, c)
-    endif
-endfunction
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " Maps for window resizing
 noremap <silent> <Left> <C-w><
 noremap <silent> <Down> <C-W>-
 noremap <silent> <Up> <C-W>+
 noremap <silent> <Right> <C-w>>
-" Maps Ctrl-[s.v] to horizontal and vertical split respectively
-" noremap <silent> <C-s> :split<CR>
-" noremap <silent> <C-v> :vsplit<CR>
-" Maps Ctrl-[n,p] for moving next and previous window respectively
+
 noremap <silent> <C-n> <C-w><C-w>
-" noremap <silent> <C-p> <C-w><S-w>
 
 " Maps for natural navigation of long lines
 nnoremap j gj
 nnoremap k gk
 
-" Easy window navigation
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
-
-" Short cut for full line completion
-inoremap § <c-x><c-l>
-
-" Key combo to insert date and time
-:nnoremap <Leader>d "=strftime("%c")<CR>P
-
 " Fugitive stuff. Delete a fugitive buffer upon leaving it.
 autocmd! BufReadPost fugitive://* set bufhidden=delete
-
-" " Show syntax highlighting groups for word under cursor
-" nmap <C-S-P> :call <SID>SynStack()<CR>
-" function! <SID>SynStack()
-"   if !exists("*synstack")
-"     return
-"   endif
-"   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-" endfunc
 
 " Source a given file or fail out.
 function! LoadFile(filename)
@@ -253,41 +213,6 @@ function! LoadFile(filename)
         " echo "Can't source " FILE
     endif
 endfunction
-
-" Tell vim to remember certain things when we exit
-"  '10  :  marks will be remembered for up to 10 previously edited files
-"  "100 :  will save up to 100 lines for each register
-"  :20  :  up to 20 lines of command-line history will be remembered
-"  %    :  saves and restores the buffer list
-"  n... :  where to save the viminfo files
-set viminfo='10,\"100,:20,%,n~/.viminfo
-
-function! ResCur()
-  if line("'\"") <= line("$")
-    normal! g`"
-    return 1
-  endif
-endfunction
-
-augroup resCur
-  autocmd!
-  autocmd BufWinEnter,SessionLoadPost * call ResCur()
-augroup END
-
-" Loads the session from the current directory if, and only if, no file names
-" were passed in via the command line.
-function! LoadSession()
-    if argc() == 0
-        exe LoadFile(".session.vim")
-    endif
-endfunction
-
-" Make sure we save as much as we can into session files.
-set sessionoptions=blank,buffers,options,localoptions,resize,winsize,tabpages,winpos,help
-
-" Auto session management commands
-autocmd! VimLeave * mksession! .session.vim
-autocmd! VimEnter * :call LoadSession()
 
 " Stop screen trying to hijack .S files.
 let vimrplugin_screenplugin = 0

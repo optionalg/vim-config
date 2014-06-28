@@ -1,2 +1,4 @@
 backups/
 .vimrc.local
+.vim/bundle
+.vim/sessions
