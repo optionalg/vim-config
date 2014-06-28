@@ -34,14 +34,14 @@ Then you can cd into that directory and run the handy install script:
 The install script will backup your current configuration, if it finds one, into
 the backups/ directory of the repository. When it's finished with that, it will
 create symbolic links in your home directory that point to the files in here.
-Nifty, right?
 
-To pull down all of the plugin submodules you will need to run (from the root
-directory of the repository, which you should be in if you just ran the commands
-above this):
+Next you'll need to pull down Vundle, which is present as a submodule:
 
-    $ git submodule init
-    $ git submodule update
+  $ git submodule update --init
+
+After that, you can install the plugins via Vundle:
+
+  $ vim +PluginInstall +qall
 
 # Overriding my config
 

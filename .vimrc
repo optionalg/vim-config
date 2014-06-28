@@ -39,7 +39,6 @@ Plugin 'Lokaltog/vim-powerline'
 Plugin 'helino/vim-nasm'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
-Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()
 
@@ -85,6 +84,7 @@ set pastetoggle=,p        " Toggle paste mode, which allows you to paste as-is
 set laststatus=2
 set termencoding=utf-8
 set encoding=utf-8
+set backspace=indent,eol,start
 
 " Session management
 let g:session_default_name = getcwd()
