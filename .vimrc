@@ -1,16 +1,55 @@
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/vundle
+call vundle#begin()
+
+Plugin 'scrooloose/syntastic'
+Plugin 'godlygeek/tabular'
+Plugin 'rollxx/vim-antlr'
+Plugin 'vintikzzz/vim-bundler'
+Plugin 'asux/vim-capybara'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-cucumber'
+Plugin 'tpope/vim-endwise'
+Plugin 'oscarh/vimerl'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-git'
+Plugin 'tpope/vim-haml'
+Plugin 'wlangstroth/vim-haskell'
+Plugin 'jcf/vim-latex'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-rake'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-rvm'
+Plugin 'tsaleh/vim-supertab'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'vim-scripts/VimClojure'
+Plugin 'vim-scripts/Vim-R-plugin'
+Plugin 'tpope/vim-repeat'
+Plugin 'kien/ctrlp.vim'
+Plugin 'vim-scripts/vimwiki'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'rodjek/vim-puppet'
+Plugin 'vim-scripts/cscope.vim'
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'helino/vim-nasm'
+
+call vundle#end()
+
+" let g:solarized_termcolors = 16
+syntax enable
+set background=dark
+colorscheme solarized
+
 " Load plugins.
 if has("autocmd")
     filetype plugin indent on
 endif
 
-let g:solarized_termcolors = 16
-syntax enable                 " Syntax highlighting on
-set background=dark
-colorscheme solarized
-
-set nocompatible
-call pathogen#infect()    " Init pathogen
-call pathogen#helptags()
 
 set go-=m                 " Hide menu (gvim).
 set go-=T                 " Hide toolbar (gvim).
@@ -95,13 +134,10 @@ if v:version >= 700
     autocmd! BufNewFile,BufRead *.txt,*.md,*.markdown,*.mdown,*.tex setlocal spell spelllang=en_gb
 endif
 
-" " Improved status line
-" set statusline=%F%m%r%h%w\ [ftype=%Y]\ [pos=%p%%][l:%l/c:%v]\ [lines=%L]\ %{fugitive#statusline()}
-" set laststatus=2
-" let g:Powerline_symbols='none'
-let g:Powerline_colorscheme="solarized16"
+" Improved status line
+set statusline=%F%m%r%h%w\ [ftype=%Y]\ [pos=%p%%][l:%l/c:%v]\ [lines=%L]\ %{fugitive#statusline()}
 
-" " Syntastic settings.
+" Syntastic settings.
 set statusline+=\ %#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -255,6 +291,9 @@ autocmd! VimEnter * :call LoadSession()
 
 " Stop screen trying to hijack .S files.
 let vimrplugin_screenplugin = 0
+
+" Syntax highlight in codeblocks in markdown
+let g:markdown_fenced_languages = ['ruby', 'vim']
 
 " Load the .vimrc.local file if it exists.
 exec LoadFile("~/.vimrc.local")
