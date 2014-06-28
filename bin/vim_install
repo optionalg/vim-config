@@ -2,8 +2,8 @@
 
 require 'fileutils'
 
-$root_repo_dir = File.absolute_path(File.dirname(__FILE__)) + '/..'
-$home          = Dir.home
+$root_repo_dir = File.expand_path(File.dirname(__FILE__)) + '/..'
+$home          = File.expand_path("~")
 $backup_dir    = "#{$root_repo_dir}/backups"
 
 # Backup a file or directory to the vim-config backup path.
@@ -16,10 +16,10 @@ def backup path
   backup_path = "#{$backup_dir}/#{basename}-#{Time.now.to_i}"
 
   puts "Backing up #{path} to #{backup_path}..."
-  if Dir.exists? path
-    FileUtils.cp_r path, backup_path, verbose: true
+  if File.directory? path
+    FileUtils.cp_r path, backup_path, :verbose => true
   elsif File.exists? path
-    FileUtils.cp path, backup_path, verbose: true
+    FileUtils.cp path, backup_path, :verbose => true
   else
     raise "Path #{path} is not vaid."
   end
@@ -39,12 +39,12 @@ def symlink_in_home path
   basename = File.basename path
 
   puts "Creating new symlink to #{basename}..."
-  FileUtils.symlink path, "#{$home}/#{basename}", verbose: true
+  FileUtils.symlink path, "#{$home}/#{basename}", :verbose => true
   puts "Done creating #{basename} symlink."
 end
 
 # Backup and remove existing .vim* files.
-backup_and_remove "#{$home}/.vim" if Dir.exists? "#{$home}/.vim"
+backup_and_remove "#{$home}/.vim" if File.directory? "#{$home}/.vim"
 backup_and_remove "#{$home}/.vimrc" if File.exists? "#{$home}/.vimrc"
 backup_and_remove "#{$home}/.vimrc.local" if File.exists? "#{$home}/.vimrc.local"
 
