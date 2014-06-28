@@ -39,6 +39,7 @@ Plugin 'Lokaltog/vim-powerline'
 Plugin 'helino/vim-nasm'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
+Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()
 
@@ -160,9 +161,6 @@ iab adn and
 iab ans and
 iab teh the
 iab thre there
-
-" Turn omni complete on.
-set ofu=syntaxcomplete#Complete
 
 " LaTeX configs
 " IMPORTANT: grep will sometimes skip displaying the file name if you
